@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,8 +18,9 @@ import java.util.UUID;
 public class Event {
     @Id
     @Column(name = "event_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID eventId;
     @Column(name = "name")
     @NonNull
     private String name;

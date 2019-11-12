@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event,Long> {
-    Event findByEventId(Long id);
+public interface EventRepository extends JpaRepository<Event,UUID> {
+    Event findByEventId(UUID id);
 }

@@ -6,8 +6,8 @@ import com.netcracker.event.repository.EventRepository;
 import com.netcracker.event.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,19 +20,12 @@ public class ParticipantService {
         this.eventRepository = eventRepository;
     }
 
-    public Boolean getParticipantStatus(Long id){
-        return this.participantRepository.findByParticipantId(id).getIsTeamNeed();
+    public Boolean getParticipantStatus(UUID id){
+        return participantRepository.findByParticipantId(id).getIsTeamNeed();
     }
 
-    public Boolean updateParticipantStatus(Participant participant) {
-        try {
-            participantRepository.updateParticipantStatus(participant.getIsTeamNeed());
-            return true;
-        }catch (Exception e) {
-            System.out.println("Ошибка при изменении статуса участника эввента");
-            System.out.println(e);
-            return false;
-        }
+    @Transactional
+    public void updateParticipantStatus(Participant participant){
+        participantRepository.save(participant);
     }
-
 }

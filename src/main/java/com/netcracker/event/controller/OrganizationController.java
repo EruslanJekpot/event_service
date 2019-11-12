@@ -2,7 +2,11 @@ package com.netcracker.event.controller;
 
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.service.OrganizationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 public class OrganizationController {
@@ -12,23 +16,25 @@ public class OrganizationController {
         this.organizationService=organizationService;
     }
 
-    @PostMapping(path = "/add/org")
-    public void addOrganization(@RequestBody Organization organization){
-        organizationService.addOrganization(organization);
+    @PostMapping(path = "/save/organization")
+    public ResponseEntity saveOrganization(@RequestBody Organization organization) {
+        organizationService.saveOrganization(organization);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path = "/org/{org_id}")
-    public Organization getOrganizationById(@PathVariable(value = "org_id") Long organizationId){
-        return organizationService.findByOrganizationId(organizationId);
+    @GetMapping(path = "/organization/{organization_id}")
+    public ResponseEntity getOrganizationById(@PathVariable(value = "organization_id") UUID organizationId){
+        return ResponseEntity.ok().body(organizationService.findByOrganizationId(organizationId));
     }
 
-    @GetMapping(path = "/org/{org_id}/info")
-    public String getOrganizationInfo(@PathVariable(value = "org_id") Long organizationId){
-        return organizationService.getOrganizationInfo(organizationId);
+    @GetMapping(path = "/organization/{organization_id}/info")
+    public ResponseEntity getOrganizationInfo(@PathVariable(value = "organization_id") UUID organizationId){
+        return ResponseEntity.ok().body(organizationService.getOrganizationInfo(organizationId));
     }
 
-    @PatchMapping(path = "/org/update")
-    public void updateOrganization(@RequestBody Organization organization){
-        organizationService.updateOrganization(organization);
+    @PatchMapping(path = "/update/organization")
+    public ResponseEntity updateOrganization(@RequestBody Organization organization){
+        organizationService.saveOrganization(organization);
+        return ResponseEntity.ok().build();
     }
 }

@@ -8,11 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Repository
-public interface ParticipantRepository extends JpaRepository<Participant,Long> {
-    Participant findByParticipantId(Long id);
-    @Modifying
-    @Transactional
-    @Query("update Participant participant set participant.participantId =:participant_id, participant.isTeamNeed =:isTeamNeed where participant.participantId = :participant_id")
-    void updateParticipantStatus(@Param("isTeamNeed") Boolean isTeamNeed);
+public interface ParticipantRepository extends JpaRepository<Participant, UUID> {
+    Participant findByParticipantId(UUID id);
 }

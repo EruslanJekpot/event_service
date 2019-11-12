@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -12,11 +13,12 @@ import java.util.UUID;
 @Data
 @Table(name = "participant")
 @NoArgsConstructor
-public class Participant{
+public class Participant {
     @Id
     @Column(name = "participant_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long participantId;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID participantId;
     @ManyToOne(fetch = FetchType.EAGER)
     //data transfer object for participant
     @JoinColumn(name = "event_id")

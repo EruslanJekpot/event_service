@@ -3,12 +3,15 @@ package com.netcracker.event.service;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Participant;
 import com.netcracker.event.repository.EventRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
+@Slf4j
 public class EventService {
     private EventRepository eventRepository;
 
@@ -18,29 +21,22 @@ public class EventService {
     }
 
     public List<Event> getAll(){
-        return this.eventRepository.findAll();
+        return eventRepository.findAll();
     }
 
-    public Event findByEventId(Long id){
-        return this.eventRepository.findByEventId(id);
+    public Event findByEventId(UUID id) {
+        return eventRepository.findByEventId(id);
     }
 
-    //??
-    public String getEventInfo(Long id){
-        return this.eventRepository.findByEventId(id).getInfo();
+    public String getEventInfo(UUID id) {
+        return eventRepository.findByEventId(id).getInfo();
     }
 
-    public List<Participant> getEventParticipants(Long id){
-        return this.eventRepository.findByEventId(id).getParticipantList();
+    public List<Participant> getEventParticipants(UUID id) {
+        return eventRepository.findByEventId(id).getParticipantList();
     }
 
-    public Boolean addEvent(Event event) {
-        try {
-            eventRepository.save(event);
-            return true;
-        }catch (Exception e) {
-            System.out.println("Ошибка при сохранении эвента");
-            return false;
-        }
+    public void saveEvent(Event event) {
+        eventRepository.save(event);
     }
 }

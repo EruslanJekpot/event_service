@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,9 +16,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Organization {
     @Id
-    @Column(name = "org_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long organizationId;
+    @Column(name = "organization_id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID organizationId;
     @Column(name = "name", unique = true)
     @NonNull
     private String name;
@@ -28,10 +30,13 @@ public class Organization {
     private String phone;
     @Column(name = "info")
     private String info;
+    @Column(name = "user_id")
+    @NonNull
+    private String userId;
     @ManyToMany
     @JsonIgnore
-    @JoinTable(name = "event_org",
-            joinColumns = @JoinColumn(name = "org_id"),
+    @JoinTable(name = "event_organization",
+            joinColumns = @JoinColumn(name = "organization_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<Event> eventList;
 }

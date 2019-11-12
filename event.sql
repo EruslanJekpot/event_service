@@ -10,7 +10,7 @@ create table event (
 );
 
 create table organization (
-    org_id serial PRIMARY KEY ,
+    organization_id serial PRIMARY KEY ,
     name varchar(128) NOT NULL UNIQUE ,
     email varchar(128) NOT NULL UNIQUE ,
     phone varchar(32),
@@ -19,8 +19,8 @@ create table organization (
 
 create table event_org (
     event_id integer REFERENCES event,
-    org_id integer REFERENCES organization,
-    PRIMARY KEY (event_id, org_id)
+    organization_id integer REFERENCES organization,
+    PRIMARY KEY (event_id, organization_id)
 );
 
 create table participant (
