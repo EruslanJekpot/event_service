@@ -32,6 +32,8 @@ public class Event {
     private String city;
     @Column(name = "info")
     private String info;
+    @Column(name = "type")
+    private String type;
     @Column(name = "prize")
     private String prize;
     @Column(name = "max_mem_quantity")
