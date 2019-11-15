@@ -19,7 +19,7 @@ public class Event {
     @Id
     @Column(name = "event_id")
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy ="org.hibernate.id.UUIDGenerator")
     private UUID eventId;
     @Column(name = "name")
     @NonNull
@@ -41,7 +41,7 @@ public class Event {
     @ManyToMany(mappedBy = "eventList")
     @JsonIgnore
     private List<Organization> organizationList;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventId")
     @JsonIgnore
     private List<Participant> participantList;
 }

@@ -18,7 +18,7 @@ public class Organization {
     @Id
     @Column(name = "organization_id")
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy ="org.hibernate.id.UUIDGenerator")
     private UUID organizationId;
     @Column(name = "name", unique = true)
     @NonNull
@@ -33,7 +33,7 @@ public class Organization {
     @Column(name = "user_id")
     @NonNull
     private String userId;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(name = "event_organization",
             joinColumns = @JoinColumn(name = "organization_id"),

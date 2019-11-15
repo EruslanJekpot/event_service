@@ -17,9 +17,9 @@ public class Participant {
     @Id
     @Column(name = "participant_id")
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy ="org.hibernate.id.UUIDGenerator")
     private UUID participantId;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     //data transfer object for participant
     @JoinColumn(name = "event_id")
     @NonNull
