@@ -17,10 +17,10 @@ public class EventController {
         this.eventService=eventService;
     }
 
-    @GetMapping(path = "/get/all/event")
-    public List<Event> getAll() {
-        return eventService.getAll();
-    }
+/*    @GetMapping(path = "/get/all/event")
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok().body(eventService.findAllByStartDateAfter());
+    }*/
 
     @PostMapping(path = "/save/event")
     public ResponseEntity saveEvent(@RequestBody Event event){

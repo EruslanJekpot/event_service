@@ -20,9 +20,9 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<Event> getAll(){
-        return eventRepository.findAll();
-    }
+/*    public List<Event> findAllByStartDateAfter() {
+        return eventRepository.findAllByStartDateAfter();
+    }*/
 
     public Event findByEventId(UUID id) {
         return eventRepository.findByEventId(id);

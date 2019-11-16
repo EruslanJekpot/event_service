@@ -38,6 +38,9 @@ public class Event {
     private String prize;
     @Column(name = "max_mem_quantity")
     private Integer maxMemQuantity;
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
     @ManyToMany(mappedBy = "eventList")
     @JsonIgnore
     private List<Organization> organizationList;
