@@ -32,15 +32,13 @@ public class Event {
     private String city;
     @Column(name = "info")
     private String info;
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private String type;
+    private EventType eventType;
     @Column(name = "prize")
     private String prize;
     @Column(name = "max_mem_quantity")
     private Integer maxMemQuantity;
-    @Lob
-    @Column(name = "image")
-    private byte[] image;
     @ManyToMany(mappedBy = "eventList")
     @JsonIgnore
     private List<Organization> organizationList;
