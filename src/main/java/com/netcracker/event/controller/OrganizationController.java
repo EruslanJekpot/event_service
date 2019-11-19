@@ -17,7 +17,7 @@ public class OrganizationController {
     }
 
     @PostMapping(path = "/save/organization")
-    public ResponseEntity saveOrganization(@RequestBody Organization organization) {
+    public ResponseEntity saveOrganization(Organization organization) {
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
     }
