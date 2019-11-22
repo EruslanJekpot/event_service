@@ -2,12 +2,18 @@ package com.netcracker.event.controller;
 
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.service.OrganizationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 public class OrganizationController {
     private OrganizationService organizationService;
@@ -33,7 +39,21 @@ public class OrganizationController {
     }
 
     @PatchMapping(path = "/update/organization")
-    public ResponseEntity updateOrganization(@RequestBody Organization organization){
+    public ResponseEntity updateOrganization(@RequestBody Organization organization,
+                                             @RequestParam("file") MultipartFile file){
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File("uploaded")));
+                stream.write(bytes);
+                stream.close();
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        } else {
+            System.out.println("File is empty");
+        }
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
     }

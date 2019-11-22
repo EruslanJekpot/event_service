@@ -33,7 +33,6 @@ public class Organization {
     @Column(name = "user_id")
     @NonNull
     private String userId;
-    @Lob
     @Column(name = "image")
     private byte[] image;
     @ManyToMany(cascade = CascadeType.ALL)
