@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
@@ -38,23 +39,20 @@ public class OrganizationController {
         return ResponseEntity.ok().body(organizationService.getOrganizationInfo(organizationId));
     }
 
-    @PatchMapping(path = "/update/organization")
-    public ResponseEntity updateOrganization(@RequestBody Organization organization,
-                                             @RequestParam("file") MultipartFile file){
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File("uploaded")));
-                stream.write(bytes);
-                stream.close();
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-        } else {
-            System.out.println("File is empty");
-        }
+    @PostMapping(path = "/update/organization")
+    public ResponseEntity updateOrganization(@RequestHeader("uid") String uid, @RequestBody Organization org){
+        Organization organization = organizationService.getOrganizationByUser(uid);
+        organization.setEmail(org.getEmail());
+        organization.setInfo(org.getInfo());
+        organization.setPhone(org.getPhone());
+        organization.setImage(org.getImage());
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(path = "/organization/profile")
+    public ResponseEntity getProfile(@RequestHeader("uid") String uid) {
+        Organization organization = organizationService.getOrganizationByUser(uid);
+        return ResponseEntity.status(HttpStatus.OK).body(organization);
     }
 }

@@ -37,12 +37,14 @@ public class Event {
     private EventType eventType;
     @Column(name = "prize")
     private String prize;
-    @Column(name = "max_mem_quantity")
-    private Integer maxMemQuantity;
-    @Lob
-    @JsonIgnore
     @Column(name = "image")
     private byte[] image;
+    @Column(name = "max_mem_quantity")
+    private Integer maxMemQuantity;
+    /*@Lob
+    @JsonIgnore
+    @Column(name = "image")
+    private byte[] image;*/
     @ManyToMany(mappedBy = "eventList")
     @JsonIgnore
     private List<Organization> organizationList;

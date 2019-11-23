@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,7 +34,6 @@ public class Organization {
     @Column(name = "user_id")
     @NonNull
     private String userId;
-    @JsonIgnore
     @Column(name = "image")
     private byte[] image;
     @ManyToMany(cascade = CascadeType.ALL)

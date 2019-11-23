@@ -31,4 +31,8 @@ public class OrganizationService {
     public void saveOrganization(Organization organization) {
         organizationRepository.save(organization);
     }
+
+    public Organization getOrganizationByUser(String uid) {
+        return organizationRepository.findOrganizationByUserId(uid);
+    }
 }
