@@ -46,8 +46,11 @@ public class EventService {
     public void saveEvent(UUID organizationId, Event event) {
         Organization organization = organizationRepository.findByOrganizationId(organizationId);
         organization.getEventList().add(event);
+        organizationRepository.save(organization);
         eventRepository.save(event);
     }
 
-
+    public void easySaveEvent(Event event){
+        eventRepository.save(event);
+    }
 }

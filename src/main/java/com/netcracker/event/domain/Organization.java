@@ -33,6 +33,7 @@ public class Organization {
     @Column(name = "user_id")
     @NonNull
     private String userId;
+    @JsonIgnore
     @Column(name = "image")
     private byte[] image;
     @ManyToMany(cascade = CascadeType.ALL)
