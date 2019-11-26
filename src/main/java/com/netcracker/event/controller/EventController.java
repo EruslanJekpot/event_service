@@ -1,8 +1,10 @@
 package com.netcracker.event.controller;
 
 import com.netcracker.event.domain.Event;
+import com.netcracker.event.domain.Organization;
 import com.netcracker.event.domain.Participant;
 import com.netcracker.event.service.EventService;
+import com.netcracker.event.service.OrganizationService;
 import com.sun.deploy.net.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,29 +12,19 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @Slf4j
 @EnableAutoConfiguration
 public class EventController {
     private EventService eventService;
+    private OrganizationService organizationService;
 
-    public EventController(EventService eventService){
-        this.eventService=eventService;
+    public EventController(EventService eventService, OrganizationService organizationService) {
+        this.eventService = eventService;
+        this.organizationService = organizationService;
     }
 
     @GetMapping(path = "/get/all/event")
@@ -49,12 +41,27 @@ public class EventController {
         } catch (Exception exc) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
-        eventService.easySaveEvent(event);
+        eventService.saveEvent(event);
+        return ResponseEntity.ok().build();
+    }
+
+    //с добавлением организации в список
+    @PostMapping(path = "/save/event")
+    public ResponseEntity saveEvent(@RequestHeader("uid") String userId, Event event) {
+        byte[] image = null;
+        try { image = eventService.extractBytes(".event.jpeg");
+        } catch (Exception exc) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
+        }
+        Organization organization = organizationService.getOrganizationByUser(userId);
+        organization.getEventList().add(event);
+        organizationService.saveOrganization(organization);
+        eventService.saveEvent(event);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping(path = "/update/event")
-    public ResponseEntity updateEvent(Event event, @RequestParam("image") MultipartFile multipartFile)
+    public ResponseEntity updateEvent(Event event)
     {
         event.setStartDate(event.getStartDate());
         event.setInfo(event.getInfo());
@@ -64,12 +71,7 @@ public class EventController {
         event.setEventType(event.getEventType());
         event.setMaxMemQuantity(event.getMaxMemQuantity());
         event.setOrganizationList(event.getOrganizationList());
-        byte[] image = null;
-        try {
-            if (multipartFile!=null)    image = multipartFile.getBytes();
-        } catch (Exception exc) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
-        }
+        event.setImage(event.getImage());
         eventService.updateEvent(event);
         return ResponseEntity.ok().build();
     }

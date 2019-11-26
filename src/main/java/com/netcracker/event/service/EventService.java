@@ -49,18 +49,11 @@ public class EventService {
         return eventRepository.findByEventId(id).getParticipantList();
     }
 
-    public void saveEvent(UUID organizationId, Event event) {
-        Organization organization = organizationRepository.findByOrganizationId(organizationId);
-        organization.getEventList().add(event);
-        organizationRepository.save(organization);
-        eventRepository.save(event);
-    }
-
     public void updateEvent(Event event) {
         eventRepository.save(event);
     }
 
-    public void easySaveEvent(Event event){
+    public void saveEvent(Event event) {
         eventRepository.save(event);
     }
 
