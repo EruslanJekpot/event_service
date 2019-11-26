@@ -41,6 +41,7 @@ public class EventController {
         } catch (Exception exc) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
+        event.setImage(image);
         eventService.saveEvent(event);
         return ResponseEntity.ok().build();
     }
@@ -49,10 +50,11 @@ public class EventController {
     @PostMapping(path = "/save/event")
     public ResponseEntity saveEvent(@RequestHeader("uid") String userId, Event event) {
         byte[] image = null;
-        try { image = eventService.extractBytes(".event.jpeg");
+        try { image = eventService.extractBytes(".src/main/resources/static/event.jpeg");
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
+        event.setImage(image);
         Organization organization = organizationService.getOrganizationByUser(userId);
         organization.getEventList().add(event);
         organizationService.saveOrganization(organization);

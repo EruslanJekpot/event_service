@@ -8,7 +8,7 @@ create table event (
     max_mem_quantity int4,
     name varchar(255) not null,
     prize varchar(255),
-    start_date timestamp not null,
+    start_date date not null,
     primary key (event_id)
 );
 

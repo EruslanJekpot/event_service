@@ -30,10 +30,11 @@ public class OrganizationController {
     @PostMapping(path = "/save/organization")
     public ResponseEntity saveOrganization(Organization organization) {
         byte[] image = null;
-        try {  image = organizationService.extractBytes(".organizationImage.jpeg");
+        try {  image = organizationService.extractBytes(".src/main/resources/static/organizationImage.png");
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
+        organization.setImage(image);
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
     }
