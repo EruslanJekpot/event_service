@@ -20,12 +20,12 @@ public class ParticipantService {
         this.eventRepository = eventRepository;
     }
 
-    public Boolean getParticipantStatus(UUID id){
-        return participantRepository.findByParticipantId(id).getIsTeamNeed();
+    @Transactional
+    public void saveParticipant(Participant participant){
+        participantRepository.save(participant);
     }
 
-    @Transactional
-    public void updateParticipantStatus(Participant participant){
-        participantRepository.save(participant);
+    public Participant getParticipantByUserId(String userId) {
+        return participantRepository.findParticipantByUserId(userId);
     }
 }

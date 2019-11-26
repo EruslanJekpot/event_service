@@ -50,6 +50,10 @@ public class EventService {
         eventRepository.save(event);
     }
 
+    public void updateEvent(Event event) {
+        eventRepository.save(event);
+    }
+
     public void easySaveEvent(Event event){
         eventRepository.save(event);
     }

@@ -39,9 +39,9 @@ public class OrganizationController {
         return ResponseEntity.ok().body(organizationService.getOrganizationInfo(organizationId));
     }
 
-    @PostMapping(path = "/update/organization")
-    public ResponseEntity updateOrganization(@RequestHeader("uid") String uid, @RequestBody Organization org){
-        Organization organization = organizationService.getOrganizationByUser(uid);
+    @PatchMapping(path = "/update/organization")
+    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org){
+        Organization organization = organizationService.getOrganizationByUser(userId);
         organization.setEmail(org.getEmail());
         organization.setInfo(org.getInfo());
         organization.setPhone(org.getPhone());

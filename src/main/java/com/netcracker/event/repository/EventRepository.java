@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface EventRepository extends JpaRepository<Event,UUID> {
     Event findByEventId(UUID id);
+
     @Query("select e from Event e where e.startDate > :currentDate")
     List<Event> findEventsAfterCertainDate(@Param(value = "currentDate") Date currentDate);
 }

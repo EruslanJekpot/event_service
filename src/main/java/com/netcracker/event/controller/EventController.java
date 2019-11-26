@@ -48,7 +48,7 @@ public class EventController {
         try {
             if (multipartFile!=null) {
                 image = multipartFile.getBytes();
-            } else  image = extractBytes("event.jpeg");
+            } else  image = extractBytes(".event.jpeg");
         } catch (Exception exc) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
@@ -56,22 +56,26 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-//    @PatchMapping(path = "/update/event")
-//    public ResponseEntity updateEvent(
-//            @RequestBody Event event)
-    //@RequestParam("image") MultipartFile image)
-//    {
-//
-//        if (!image.isEmpty()) {
-//            try {
-//                byte[] bytes = image.getBytes();
-//            } catch (Exception e) {
-//                log.error(e.getMessage());
-//            }
-//        }
-//        eventService.saveEvent(event);
-//        return ResponseEntity.ok().build();
-//    }
+    @PatchMapping(path = "/update/event")
+    public ResponseEntity updateEvent(Event event, @RequestParam("image") MultipartFile multipartFile)
+    {
+        event.setStartDate(event.getStartDate());
+        event.setInfo(event.getInfo());
+        event.setCity(event.getCity());
+        event.setPrize(event.getPrize());
+        event.setName(event.getName());
+        event.setEventType(event.getEventType());
+        event.setMaxMemQuantity(event.getMaxMemQuantity());
+        event.setOrganizationList(event.getOrganizationList());
+        byte[] image = null;
+        try {
+            if (multipartFile!=null)    image = multipartFile.getBytes();
+        } catch (Exception exc) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
+        }
+        eventService.updateEvent(event);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping(path = "/get/event/{event_id}")
     public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){

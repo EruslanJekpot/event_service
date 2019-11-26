@@ -32,7 +32,7 @@ public class OrganizationService {
         organizationRepository.save(organization);
     }
 
-    public Organization getOrganizationByUser(String uid) {
-        return organizationRepository.findOrganizationByUserId(uid);
+    public Organization getOrganizationByUser(String userId) {
+        return organizationRepository.findOrganizationByUserId(userId);
     }
 }

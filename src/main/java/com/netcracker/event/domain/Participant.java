@@ -24,8 +24,9 @@ public class Participant {
     @JoinColumn(name = "event_id")
     @NonNull
     private Event eventId;
-    @Column(name = "attendee_id")
-    private String attendeeId;
+    @Column(name = "user_id")
+    @NonNull
+    private String userId;
     @Column(name = "isTeamNeed")
     private Boolean isTeamNeed;
 }
