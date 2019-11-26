@@ -49,18 +49,12 @@ public class OrganizationController {
     }
 
     @PatchMapping(path = "/update/organization")
-    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org, MultipartFile multipartFile){
+    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org){
         Organization organization = organizationService.getOrganizationByUser(userId);
         organization.setEmail(org.getEmail());
         organization.setInfo(org.getInfo());
         organization.setPhone(org.getPhone());
         organization.setImage(org.getImage());
-        byte[] image = null;
-        try {
-            if (multipartFile!=null)    image = multipartFile.getBytes();
-        } catch (Exception exc) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
-        }
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
     }
