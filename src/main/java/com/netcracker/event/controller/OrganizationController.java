@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +28,15 @@ public class OrganizationController {
     }
 
     @PostMapping(path = "/save/organization")
-    public ResponseEntity saveOrganization(Organization organization) {
+    public ResponseEntity saveOrganization(Organization organization, MultipartFile multipartFile) {
+        byte[] image = null;
+        try {
+            if (multipartFile!=null) {
+                image = multipartFile.getBytes();
+            } else  image = extractBytes(".organizationImage.jpeg");
+        } catch (Exception exc) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
+        }
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
     }
@@ -40,12 +52,20 @@ public class OrganizationController {
     }
 
     @PatchMapping(path = "/update/organization")
-    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org){
+    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org, MultipartFile multipartFile){
         Organization organization = organizationService.getOrganizationByUser(userId);
         organization.setEmail(org.getEmail());
         organization.setInfo(org.getInfo());
         organization.setPhone(org.getPhone());
         organization.setImage(org.getImage());
+        byte[] image = null;
+        try {
+            if (multipartFile!=null) {
+                image = multipartFile.getBytes();
+            } else  image = extractBytes(".organizationImage.jpeg");
+        } catch (Exception exc) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
+        }
         organizationService.saveOrganization(organization);
         return ResponseEntity.ok().build();
     }
@@ -54,5 +74,13 @@ public class OrganizationController {
     public ResponseEntity getProfile(@RequestHeader("uid") String uid) {
         Organization organization = organizationService.getOrganizationByUser(uid);
         return ResponseEntity.status(HttpStatus.OK).body(organization);
+    }
+
+    public byte[] extractBytes (String ImageName) throws IOException {
+        File imgPath = new File(ImageName);
+        BufferedImage bufferedImage = ImageIO.read(imgPath);
+        WritableRaster raster = bufferedImage .getRaster();
+        DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
+        return ( data.getData() );
     }
 }
