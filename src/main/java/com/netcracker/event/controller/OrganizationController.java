@@ -6,16 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
@@ -64,5 +55,6 @@ public class OrganizationController {
         Organization organization = organizationService.getOrganizationByUser(uid);
         return ResponseEntity.status(HttpStatus.OK).body(organization);
     }
+
 
 }

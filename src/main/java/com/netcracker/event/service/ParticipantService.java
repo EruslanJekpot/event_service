@@ -28,4 +28,12 @@ public class ParticipantService {
     public Participant getParticipantByUserId(String userId) {
         return participantRepository.findParticipantByUserId(userId);
     }
+
+    public Participant getParticipantOfEvent(Event event, String userId) {
+        return participantRepository.findParticipantByEventIdAndUserId(event, userId);
+    }
+
+    public void deleteParticipant(Participant participant) {
+        participantRepository.delete(participant);
+    }
 }
