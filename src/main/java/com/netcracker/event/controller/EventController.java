@@ -42,13 +42,10 @@ public class EventController {
 
     //dlya proverki (roflo metod)
     @PostMapping(path = "/easySave/event")
-    public ResponseEntity easySaveEvent(Event event, MultipartFile multipartFile)
+    public ResponseEntity easySaveEvent(Event event)
     {
         byte[] image = null;
-        try {
-            if (multipartFile!=null) {
-                image = multipartFile.getBytes();
-            } else  image = extractBytes(".event.jpeg");
+        try { image = eventService.extractBytes(".event.jpeg");
         } catch (Exception exc) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
@@ -92,11 +89,4 @@ public class EventController {
         return ResponseEntity.ok().body(eventService.getEventParticipants(eventId));
     }
 
-    public byte[] extractBytes (String ImageName) throws IOException {
-        File imgPath = new File(ImageName);
-        BufferedImage bufferedImage = ImageIO.read(imgPath);
-        WritableRaster raster = bufferedImage .getRaster();
-        DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
-        return ( data.getData() );
-    }
 }

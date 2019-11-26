@@ -28,12 +28,9 @@ public class OrganizationController {
     }
 
     @PostMapping(path = "/save/organization")
-    public ResponseEntity saveOrganization(Organization organization, MultipartFile multipartFile) {
+    public ResponseEntity saveOrganization(Organization organization) {
         byte[] image = null;
-        try {
-            if (multipartFile!=null) {
-                image = multipartFile.getBytes();
-            } else  image = extractBytes(".organizationImage.jpeg");
+        try {  image = organizationService.extractBytes(".organizationImage.jpeg");
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
@@ -60,9 +57,7 @@ public class OrganizationController {
         organization.setImage(org.getImage());
         byte[] image = null;
         try {
-            if (multipartFile!=null) {
-                image = multipartFile.getBytes();
-            } else  image = extractBytes(".organizationImage.jpeg");
+            if (multipartFile!=null)    image = multipartFile.getBytes();
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
@@ -76,11 +71,4 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.OK).body(organization);
     }
 
-    public byte[] extractBytes (String ImageName) throws IOException {
-        File imgPath = new File(ImageName);
-        BufferedImage bufferedImage = ImageIO.read(imgPath);
-        WritableRaster raster = bufferedImage .getRaster();
-        DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
-        return ( data.getData() );
-    }
 }
