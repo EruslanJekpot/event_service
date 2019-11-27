@@ -1,5 +1,6 @@
 package com.netcracker.event.repository;
 
+import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Participant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,4 +15,6 @@ public interface ParticipantRepository extends JpaRepository<Participant, UUID> 
     Participant findByParticipantId(UUID id);
 
     Participant findParticipantByUserId(String id);
+
+    Participant findParticipantByEventIdAndUserId(Event event, String userId);
 }

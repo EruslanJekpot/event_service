@@ -2,13 +2,11 @@ package com.netcracker.event.controller;
 
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
-import com.netcracker.event.domain.Participant;
 import com.netcracker.event.service.EventService;
 import com.netcracker.event.service.OrganizationService;
 import com.sun.deploy.net.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +32,10 @@ public class EventController {
 
     //dlya proverki (roflo metod)
     @PostMapping(path = "/easySave/event")
-    public ResponseEntity easySaveEvent(Event event)
+    public ResponseEntity easySaveEvent(@RequestBody Event event)
     {
         byte[] image = null;
-        try { image = eventService.extractBytes(".event.jpeg");
+        try { image = eventService.extractBytes("src/main/resources/static/event.jpeg");
         } catch (Exception exc) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
