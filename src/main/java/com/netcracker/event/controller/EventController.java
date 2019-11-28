@@ -76,12 +76,12 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping(path = "/get/event/{event_id}")
-//    public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){
-//        return ResponseEntity.ok().body(eventService.findByEventId(eventId));
-//    }
+    @GetMapping(path = "/get/event/{event_id}")
+    public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){
+        return ResponseEntity.ok().body(eventService.findByEventId(eventId));
+    }
 
-    @GetMapping(path = "/event/{event_id}")
+    @GetMapping(path = "/eventDto/{event_id}")
     public ResponseEntity<EventDto> getEventDto(@PathVariable(value = "event_id") UUID eventId){
         return ResponseEntity.ok().body(eventService.getEventDto(eventId));
     }
