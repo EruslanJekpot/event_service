@@ -47,6 +47,6 @@ public class OrganizationService {
         BufferedImage bufferedImage = ImageIO.read(imgPath);
         WritableRaster raster = bufferedImage .getRaster();
         DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
-        return ( data.getData() );
+        return (data.getData());
     }
 }

@@ -36,10 +36,13 @@ public class Organization {
     private String userId;
     @Column(name = "image")
     private byte[] image;
-    @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    @JoinTable(name = "event_organization",
+//            joinColumns = @JoinColumn(name = "organization_id"),
+//            inverseJoinColumns = @JoinColumn(name = "event_id"))
+//    private List<Event> eventList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventId")
     @JsonIgnore
-    @JoinTable(name = "event_organization",
-            joinColumns = @JoinColumn(name = "organization_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<Event> eventList;
 }

@@ -1,5 +1,6 @@
 package com.netcracker.event.controller;
 
+import com.netcracker.event.Dto.EventDto;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.service.EventService;
@@ -70,16 +71,21 @@ public class EventController {
         event.setName(event.getName());
         event.setEventType(event.getEventType());
         event.setMaxMemQuantity(event.getMaxMemQuantity());
-        event.setOrganizationList(event.getOrganizationList());
         event.setImage(event.getImage());
         eventService.updateEvent(event);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path = "/get/event/{event_id}")
-    public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){
-        return ResponseEntity.ok().body(eventService.findByEventId(eventId));
+//    @GetMapping(path = "/get/event/{event_id}")
+//    public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){
+//        return ResponseEntity.ok().body(eventService.findByEventId(eventId));
+//    }
+
+    @GetMapping(path = "/event/{event_id}")
+    public ResponseEntity<EventDto> getEventDto(@PathVariable(value = "event_id") UUID eventId){
+        return ResponseEntity.ok().body(eventService.getEventDto(eventId));
     }
+
 
     @GetMapping(path = "/get/event/{event_id}/info")
     public ResponseEntity getEventInfo(@PathVariable(value = "event_id") UUID eventId){

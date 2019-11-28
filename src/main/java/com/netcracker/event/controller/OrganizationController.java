@@ -57,5 +57,4 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.OK).body(organization);
     }
 
-
 }

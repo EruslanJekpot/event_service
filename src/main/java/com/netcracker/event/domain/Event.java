@@ -37,14 +37,18 @@ public class Event {
     private EventType eventType;
     @Column(name = "prize")
     private String prize;
+    @JsonIgnore
     @Column(name = "image")
     private byte[] image;
     @Column(name = "max_mem_quantity")
     private Integer maxMemQuantity;
-    @ManyToMany(mappedBy = "eventList")
-    @JsonIgnore
-    private List<Organization> organizationList;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId")
     @JsonIgnore
     private List<Participant> participantList;
+//    @ManyToMany(mappedBy = "eventList")
+//    @JsonIgnore
+//    private List<Organization> organizationList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id")
+    private Organization organizationId;
 }
