@@ -5,7 +5,6 @@ import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.service.EventService;
 import com.netcracker.event.service.OrganizationService;
-import com.sun.deploy.net.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -33,27 +32,14 @@ public class EventController {
 
     //dlya proverki (roflo metod)
     @PostMapping(path = "/easySave/event")
-    public ResponseEntity easySaveEvent(@RequestBody Event event)
-    {
-        byte[] image = null;
-        try { image = eventService.extractBytes("src/main/resources/static/event.jpeg");
-        } catch (Exception exc) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
-        }
-        event.setImage(image);
+    public ResponseEntity easySaveEvent(@RequestBody Event event) {
         eventService.saveEvent(event);
         return ResponseEntity.ok().build();
     }
 
     //с добавлением организации в список
     @PostMapping(path = "/save/event")
-    public ResponseEntity saveEvent(@RequestHeader("uid") String userId, Event event) {
-        byte[] image = null;
-        try { image = eventService.extractBytes(".src/main/resources/static/event.jpeg");
-        } catch (Exception exc) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
-        }
-        event.setImage(image);
+    public ResponseEntity saveEvent(@RequestHeader("uid") String userId, @RequestBody Event event) {
         Organization organization = organizationService.getOrganizationByUser(userId);
         organization.getEventList().add(event);
         organizationService.saveOrganization(organization);
@@ -62,30 +48,20 @@ public class EventController {
     }
 
     @PatchMapping(path = "/update/event")
-    public ResponseEntity updateEvent(Event event)
-    {
-        event.setStartDate(event.getStartDate());
-        event.setInfo(event.getInfo());
-        event.setCity(event.getCity());
-        event.setPrize(event.getPrize());
-        event.setName(event.getName());
-        event.setEventType(event.getEventType());
-        event.setMaxMemQuantity(event.getMaxMemQuantity());
-        event.setImage(event.getImage());
+    public ResponseEntity updateEvent(Event event) {
         eventService.updateEvent(event);
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping(path = "/get/event/{event_id}")
-//    public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){
-//        return ResponseEntity.ok().body(eventService.findByEventId(eventId));
-//    }
+    @GetMapping(path = "/get/event/{event_id}")
+    public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId){
+        return ResponseEntity.ok().body(eventService.findByEventId(eventId));
+    }
 
     @GetMapping(path = "/event/{event_id}")
     public ResponseEntity<EventDto> getEventDto(@PathVariable(value = "event_id") UUID eventId){
         return ResponseEntity.ok().body(eventService.getEventDto(eventId));
     }
-
 
     @GetMapping(path = "/get/event/{event_id}/info")
     public ResponseEntity getEventInfo(@PathVariable(value = "event_id") UUID eventId){

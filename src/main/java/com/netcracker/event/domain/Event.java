@@ -48,6 +48,7 @@ public class Event {
 //    @ManyToMany(mappedBy = "eventList")
 //    @JsonIgnore
 //    private List<Organization> organizationList;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     private Organization organizationId;
