@@ -37,7 +37,7 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-    //с добавлением организации в список
+    //с добавлением в список
     @PostMapping(path = "/save/event")
     public ResponseEntity saveEvent(@RequestHeader("uid") String userId, @RequestBody Event event) {
         Organization organization = organizationService.getOrganizationByUser(userId);
@@ -47,8 +47,8 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping(path = "/update/event")
-    public ResponseEntity updateEvent(Event event) {
+    @PatchMapping( path = "/update/event")
+    public ResponseEntity updateEvent(@RequestBody Event event) {
         eventService.updateEvent(event);
         return ResponseEntity.ok().build();
     }
@@ -58,6 +58,7 @@ public class EventController {
         return ResponseEntity.ok().body(eventService.findByEventId(eventId));
     }
 
+    // dto с организацией и эвентом
     @GetMapping(path = "/eventDto/{event_id}")
     public ResponseEntity<EventDto> getEventDto(@PathVariable(value = "event_id") UUID eventId){
         return ResponseEntity.ok().body(eventService.getEventDto(eventId));
