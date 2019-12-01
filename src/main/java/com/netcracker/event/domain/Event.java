@@ -37,7 +37,6 @@ public class Event {
     private EventType eventType;
     @Column(name = "prize")
     private String prize;
-    @JsonIgnore
     @Column(name = "image")
     private byte[] image;
     @Column(name = "max_mem_quantity")
