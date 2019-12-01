@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -56,6 +57,7 @@ public class EventService {
         eventRepository.save(event);
     }
 
+    @Transactional
     public void saveEvent(Event event) {
         eventRepository.save(event);
     }
@@ -63,13 +65,21 @@ public class EventService {
     @Autowired
     private ModelMapper modelMapper;
 
+    // Для вывода информации об эвенте с именем и id организации
     public EventDto getEventDto(UUID id) {
-
         // fetching Event entity object from the database
         Event event = eventRepository.findByEventId(id);
         Organization organization = event.getOrganizationId();
         EventDto eventDto = modelMapper.map(event, EventDto.class);
         eventDto.setOrganizationName(organization.getName());
+        return eventDto;
+    }
+
+    // Для вывода списка участников эвента
+    public EventDto getEventParticipantsDto(UUID id) {
+        // fetching Event entity object from the database
+        Event event = eventRepository.findByEventId(id);
+        EventDto eventDto = modelMapper.map(event, EventDto.class);
         return eventDto;
     }
 

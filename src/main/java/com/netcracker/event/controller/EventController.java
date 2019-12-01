@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -69,9 +70,13 @@ public class EventController {
         return ResponseEntity.ok().body(eventService.getEventInfo(eventId));
     }
 
-    @GetMapping(path = "/get/event/{event_id}/participant")
+    @GetMapping(path = "/get/event/{event_id}/participants")
     public ResponseEntity getEventParticipants(@PathVariable(value = "event_id") UUID eventId){
         return ResponseEntity.ok().body(eventService.getEventParticipants(eventId));
     }
 
+    @GetMapping(path = "/eventDto/{event_id}/participants")
+    public ResponseEntity<List> getEventParticipantsDto(@PathVariable(value = "event_id") UUID eventId) {
+        return ResponseEntity.ok().body(eventService.getEventParticipantsDto(eventId).getParticipantList());
+    }
 }
