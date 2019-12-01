@@ -48,7 +48,7 @@ public class Event {
 //    @JsonIgnore
 //    private List<Organization> organizationList;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organization_id")
     private Organization organizationId;
 }
