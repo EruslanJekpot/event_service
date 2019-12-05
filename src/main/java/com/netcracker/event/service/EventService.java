@@ -1,9 +1,10 @@
 package com.netcracker.event.service;
 
-import com.netcracker.event.Dto.EventDto;
+import com.netcracker.event.dto.EventDto;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.domain.Participant;
+import com.netcracker.event.dto.ParticipantDto;
 import com.netcracker.event.repository.EventRepository;
 import com.netcracker.event.repository.OrganizationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,7 @@ import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -35,11 +34,32 @@ public class EventService {
         this.organizationRepository = organizationRepository;
     }
 
+    // Создаём список с айди всех участников эвента
+    public List<String> sendParticipantsId(UUID eventId) {
+        List<Participant> participants = eventRepository.findByEventId(eventId).getParticipantList();
+        List<String> participantsIdList = new ArrayList<>();
+        for (Participant participant : participants) {
+            participantsIdList.add(participant.getUserId());
+        }
+        return participantsIdList;
+    }
+
+    public HashMap<String, String> getParticipantsName(HashMap attendeesName){
+        return attendeesName;
+    }
+
+    // Для вывода списка участников эвента
+    public List<Participant> getEventParticipantsDto(UUID id) {
+        // fetching Event entity object from the database
+        Event event = eventRepository.findByEventId(id);
+        EventDto eventDto = modelMapper.map(event, EventDto.class);
+        return eventDto.getParticipantList();
+    }
+
     public List<Event> findAllByStartDateAfter() {
         Date date = new Date();
         return eventRepository.findEventsAfterCertainDate(date);
     }
-
 
     public Event findByEventId(UUID id) {
         return eventRepository.findByEventId(id);
@@ -75,19 +95,11 @@ public class EventService {
         return eventDto;
     }
 
-    // Для вывода списка участников эвента
-    public EventDto getEventParticipantsDto(UUID id) {
-        // fetching Event entity object from the database
-        Event event = eventRepository.findByEventId(id);
-        EventDto eventDto = modelMapper.map(event, EventDto.class);
-        return eventDto;
-    }
-
-    public byte[] extractBytes (String ImageName) throws IOException {
+    public byte[] extractBytes(String ImageName) throws IOException {
         File imgPath = new File(ImageName);
         BufferedImage bufferedImage = ImageIO.read(imgPath);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "jpg", bos );
-        return ( bos.toByteArray() );
+        ImageIO.write(bufferedImage, "jpg", bos);
+        return (bos.toByteArray());
     }
 }

@@ -41,6 +41,7 @@ public class Event {
     private byte[] image;
     @Column(name = "max_mem_quantity")
     private Integer maxMemQuantity;
+    @Column(name = "organization_name")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId")
     @JsonIgnore
     private List<Participant> participantList;
@@ -51,4 +52,5 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     private Organization organizationId;
+
 }

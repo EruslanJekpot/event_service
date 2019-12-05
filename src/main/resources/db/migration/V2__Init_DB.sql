@@ -17,13 +17,13 @@ SET default_with_oids = false;
 
 CREATE TABLE public.event (
     event_id uuid NOT NULL,
-    city character varying(255),
-    type character varying(255),
+    city varchar(255),
+    type varchar(255),
     image bytea,
-    info character varying(255),
+    info varchar(255),
     max_mem_quantity integer,
-    name character varying(255),
-    prize character varying(255),
+    name  varchar(255),
+    prize varchar(255),
     start_date date,
     organization_id uuid
 );
@@ -32,12 +32,12 @@ ALTER TABLE public.event OWNER TO postgres;
 
 CREATE TABLE public.organization (
     organization_id uuid NOT NULL,
-    email character varying(255),
+    email varchar(255),
     image bytea,
-    info character varying(255),
-    name character varying(255),
-    phone character varying(255),
-    user_id character varying(255)
+    info varchar(255),
+    name varchar(255),
+    phone varchar(255),
+    user_id varchar(255)
 );
 
 ALTER TABLE public.organization OWNER TO postgres;
@@ -45,7 +45,7 @@ ALTER TABLE public.organization OWNER TO postgres;
 CREATE TABLE public.participant (
     participant_id uuid NOT NULL,
     is_team_need boolean,
-    user_id character varying(255),
+    user_id varchar(255),
     event_id uuid
 );
 

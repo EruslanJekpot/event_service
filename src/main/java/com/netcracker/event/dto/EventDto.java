@@ -1,4 +1,4 @@
-package com.netcracker.event.Dto;
+package com.netcracker.event.dto;
 
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Participant;
