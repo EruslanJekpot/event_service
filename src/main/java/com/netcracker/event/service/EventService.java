@@ -41,9 +41,9 @@ public class EventService {
         return participantsIdList;
     }
 
-    public HashMap<String, String> getParticipantsName(HashMap attendeesName){
-        return attendeesName;
-    }
+//    public HashMap<String, String> getParticipantsName(HashMap attendeesName){
+//        return attendeesName;
+//    }
 
     // Для вывода списка участников эвента
     public List<Participant> getEventParticipantsDto(UUID id) {
