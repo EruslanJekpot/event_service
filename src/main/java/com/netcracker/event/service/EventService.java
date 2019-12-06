@@ -4,7 +4,6 @@ import com.netcracker.event.dto.EventDto;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.domain.Participant;
-import com.netcracker.event.dto.ParticipantDto;
 import com.netcracker.event.repository.EventRepository;
 import com.netcracker.event.repository.OrganizationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
