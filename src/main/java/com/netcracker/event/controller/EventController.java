@@ -3,6 +3,7 @@ package com.netcracker.event.controller;
 import com.netcracker.event.dto.EventDto;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
+import com.netcracker.event.feign.EventClient;
 import com.netcracker.event.service.EventService;
 import com.netcracker.event.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,22 +22,22 @@ import java.util.UUID;
 public class EventController {
     private EventService eventService;
     private OrganizationService organizationService;
+    private EventClient eventClient;
 
     public EventController(EventService eventService, OrganizationService organizationService) {
         this.eventService = eventService;
         this.organizationService = organizationService;
     }
 
-    // отправляем список юзер айди участников эвента
-    @PostMapping(path = "/event/participantsList")
-    public ResponseEntity postParticipantsId(@PathVariable UUID eventId) {
+    @GetMapping(path = "/event/{event_id}/participantsList")
+    public ResponseEntity sendParticipantsId(@PathVariable(value = "event_id") UUID eventId) {
         return ResponseEntity.ok().body(eventService.sendParticipantsId(eventId));
     }
 
-    @GetMapping(path = "/attendee/names")
-    public ResponseEntity getParticipantsName(HashMap attendeesName) {
-        return ResponseEntity.ok().body(eventService.getParticipantsName(attendeesName));
-    }
+//    @GetMapping(path = "/attendee/names")
+//    public ResponseEntity getParticipantsName(HashMap attendeesName) {
+//        return ResponseEntity.ok().body(eventClient.getParticipantsName(attendeesName));
+//    }
 
     @GetMapping(path = "/eventDto/{event_id}/participants")
     public ResponseEntity<List> getEventParticipantsDto(@PathVariable(value = "event_id") UUID eventId) {
@@ -48,12 +49,12 @@ public class EventController {
         return ResponseEntity.ok().body(eventService.findAllByStartDateAfter());
     }
 
-    //dlya proverki (roflo metod)
-    @PostMapping(path = "/easySave/event")
-    public ResponseEntity easySaveEvent(@RequestBody Event event) {
-        eventService.saveEvent(event);
-        return ResponseEntity.ok().build();
-    }
+//    //dlya proverki (roflo metod)
+//    @PostMapping(path = "/easySave/event")
+//    public ResponseEntity easySaveEvent(@RequestBody Event event) {
+//        eventService.saveEvent(event);
+//        return ResponseEntity.ok().build();
+//    }
 
     //с добавлением в список
     @PostMapping(path = "/save/event")
