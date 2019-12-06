@@ -60,8 +60,7 @@ public class EventController {
     @PostMapping(path = "/save/event")
     public ResponseEntity saveEvent(@RequestHeader("uid") String userId, @RequestBody Event event) {
         Organization organization = organizationService.getOrganizationByUser(userId);
-        organization.getEventList().add(event);
-        organizationService.saveOrganization(organization);
+        event.setOrganizationId(organization);
         eventService.saveEvent(event);
         return ResponseEntity.ok().build();
     }

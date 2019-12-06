@@ -20,7 +20,15 @@ public class OrganizationController {
 
     @PostMapping(path = "/save/organization")
     public ResponseEntity saveOrganization(Organization organization) {
-        byte[] image = null;
+        byte[] image;
+        Organization existingOrg = organizationService.findByEmail(organization.getEmail());
+        if (existingOrg != null) {
+            return ResponseEntity.badRequest().body("email in use");
+        }
+        existingOrg = organizationService.findByName(organization.getName());
+        if (existingOrg != null) {
+            return ResponseEntity.badRequest().body("orgName in use");
+        }
         try {  image = organizationService.extractBytes("src/main/resources/static/org.jpg");
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
