@@ -1,9 +1,9 @@
 package com.netcracker.event.service;
 
-import com.netcracker.event.dto.EventDto;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.domain.Participant;
+import com.netcracker.event.dto.EventDto;
 import com.netcracker.event.dto.ParticipantDto;
 import com.netcracker.event.feign.EventClient;
 import com.netcracker.event.repository.EventRepository;
@@ -11,7 +11,6 @@ import com.netcracker.event.repository.OrganizationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +45,7 @@ public class EventService {
         for (Participant participant : participants) {
             participantsIdList.add(participant.getUserId());
         }
-        HashMap<String, String> participantsIdAndNames = eventClient.getParticipantsIdAndNames(participantsIdList);
+        HashMap<String, String> participantsIdAndNames = eventClient.getParticipantsIdAndNames(participantsIdList.toArray(new String[0]));
         List<ParticipantDto> participantDtoList = new ArrayList<>();
         for (Participant participant : participants) {
             Participant par = new Participant();

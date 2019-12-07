@@ -13,6 +13,6 @@ import java.util.UUID;
 @FeignClient(name = "event", url = "http://localhost:8080")
 public interface EventClient {
 
-    @GetMapping(path = "/chat/attendee/names")
-    public HashMap getParticipantsIdAndNames(List attendeesName);
+    @PostMapping(path = "/chat/attendee/names")
+    public HashMap<String, String> getParticipantsIdAndNames(String[] usersIdList);
 }
