@@ -15,7 +15,7 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
-CREATE TABLE public.event (
+CREATE TABLE IF NOT EXISTS public.event (
     event_id uuid NOT NULL,
     city varchar(255),
     type varchar(255),

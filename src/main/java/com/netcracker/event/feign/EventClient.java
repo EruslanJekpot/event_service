@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "event", url = "http://localhost:8091")
+@FeignClient(name = "event", url = "http://localhost:8080")
 public interface EventClient {
 
-    @GetMapping(path = "/attendee/names")
-    public ResponseEntity getParticipantsName(HashMap attendeesName);
+    @GetMapping(path = "/chat/attendee/names")
+    public HashMap getParticipantsIdAndNames(List attendeesName);
 }

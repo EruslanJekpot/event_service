@@ -5,11 +5,13 @@ import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.domain.Participant;
 import com.netcracker.event.dto.ParticipantDto;
+import com.netcracker.event.feign.EventClient;
 import com.netcracker.event.repository.EventRepository;
 import com.netcracker.event.repository.OrganizationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,32 +30,36 @@ import java.util.*;
 public class EventService {
     private EventRepository eventRepository;
     private OrganizationRepository organizationRepository;
+    private EventClient eventClient;
 
-    public EventService(EventRepository eventRepository, OrganizationRepository organizationRepository) {
+    public EventService(EventRepository eventRepository, OrganizationRepository organizationRepository, EventClient eventClient) {
         this.eventRepository = eventRepository;
         this.organizationRepository = organizationRepository;
+        this.eventClient = eventClient;
     }
 
-    // Создаём список с айди всех участников эвента
-    public List<String> sendParticipantsId(UUID eventId) {
+    @Autowired
+    private ModelMapper modelMapper;
+
+    // Для вывода списка участников эвента
+    public List<ParticipantDto> getEventParticipantsDto(UUID eventId) {
         List<Participant> participants = eventRepository.findByEventId(eventId).getParticipantList();
         List<String> participantsIdList = new ArrayList<>();
         for (Participant participant : participants) {
             participantsIdList.add(participant.getUserId());
         }
-        return participantsIdList;
-    }
-
-//    public HashMap<String, String> getParticipantsName(HashMap attendeesName){
-//        return attendeesName;
-//    }
-
-    // Для вывода списка участников эвента
-    public List<Participant> getEventParticipantsDto(UUID id) {
-        // fetching Event entity object from the database
-        Event event = eventRepository.findByEventId(id);
-        EventDto eventDto = modelMapper.map(event, EventDto.class);
-        return eventDto.getParticipantList();
+        HashMap<String, String> participantsIdAndNames = eventClient.getParticipantsIdAndNames(participantsIdList);
+        List<ParticipantDto> participantDtoList = new ArrayList<>();
+        for (Participant participant : participants) {
+            Participant par = new Participant();
+            par.setTeamNeed(participant.isTeamNeed());
+            par.setEventId(participant.getEventId());
+            par.setUserId(participant.getUserId());
+            ParticipantDto participantDto = modelMapper.map(par, ParticipantDto.class);
+            participantDto.setFullName(participantsIdAndNames.get(par.getUserId()));
+            participantDtoList.add(participantDto);
+        }
+        return participantDtoList;
     }
 
     public List<Event> findAllByStartDateAfter() {
@@ -81,9 +87,6 @@ public class EventService {
     public void saveEvent(Event event) {
         eventRepository.save(event);
     }
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     // Для вывода информации об эвенте с именем и id организации
     public EventDto getEventDto(UUID id) {

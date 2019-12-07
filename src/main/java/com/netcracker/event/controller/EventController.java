@@ -29,10 +29,10 @@ public class EventController {
         this.organizationService = organizationService;
     }
 
-    @GetMapping(path = "/event/{event_id}/participantsList")
-    public ResponseEntity sendParticipantsId(@PathVariable(value = "event_id") UUID eventId) {
-        return ResponseEntity.ok().body(eventService.sendParticipantsId(eventId));
-    }
+//    @GetMapping(path = "/event/{event_id}/participantsList")
+//    public ResponseEntity sendParticipantsId(@PathVariable(value = "event_id") UUID eventId) {
+//        return ResponseEntity.ok().body(eventService.sendParticipantsId(eventId));
+//    }
 
 //    @GetMapping(path = "/attendee/names")
 //    public ResponseEntity getParticipantsName(HashMap attendeesName) {
