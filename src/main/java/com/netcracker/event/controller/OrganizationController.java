@@ -29,7 +29,7 @@ public class OrganizationController {
         if (existingOrg != null) {
             return ResponseEntity.badRequest().body("orgName in use");
         }
-        try {  image = organizationService.extractBytes("src/main/resources/static/org.jpg");
+        try {  image = organizationService.extractBytes("/static/org.jpg");
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
