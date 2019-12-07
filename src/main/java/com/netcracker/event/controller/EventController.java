@@ -22,7 +22,6 @@ import java.util.UUID;
 public class EventController {
     private EventService eventService;
     private OrganizationService organizationService;
-    private EventClient eventClient;
 
     public EventController(EventService eventService, OrganizationService organizationService) {
         this.eventService = eventService;
