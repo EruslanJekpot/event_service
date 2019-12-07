@@ -29,16 +29,6 @@ public class EventController {
         this.organizationService = organizationService;
     }
 
-//    @GetMapping(path = "/event/{event_id}/participantsList")
-//    public ResponseEntity sendParticipantsId(@PathVariable(value = "event_id") UUID eventId) {
-//        return ResponseEntity.ok().body(eventService.sendParticipantsId(eventId));
-//    }
-
-//    @GetMapping(path = "/attendee/names")
-//    public ResponseEntity getParticipantsName(HashMap attendeesName) {
-//        return ResponseEntity.ok().body(eventClient.getParticipantsName(attendeesName));
-//    }
-
     @GetMapping(path = "/eventDto/{event_id}/participants")
     public ResponseEntity<List> getEventParticipantsDto(@PathVariable(value = "event_id") UUID eventId) {
         return ResponseEntity.ok().body(eventService.getEventParticipantsDto(eventId));
