@@ -42,14 +42,14 @@ public class Event {
     @Column(name = "max_mem_quantity")
     private Integer maxMemQuantity;
     @Column(name = "organization_name")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventId")
     @JsonIgnore
     private List<Participant> participantList;
 //    @ManyToMany(mappedBy = "eventList")
 //    @JsonIgnore
 //    private List<Organization> organizationList;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     private Organization organizationId;
 

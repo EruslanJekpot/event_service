@@ -19,7 +19,7 @@ public class OrganizationController {
     }
 
     @PostMapping(path = "/save/organization")
-    public ResponseEntity saveOrganization(Organization organization) {
+    public ResponseEntity saveOrganization(@RequestBody Organization organization) {
         long start, end;
         byte[] image;
         Organization existingOrg = organizationService.findByEmail(organization.getEmail());
