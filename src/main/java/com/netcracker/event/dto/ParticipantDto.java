@@ -6,6 +6,6 @@ import lombok.Data;
 public class ParticipantDto {
     private String fullName;
     private String userId;
-    private boolean isTeamNeed;
     private String eventId;
+    private boolean isTeamNeed;
 }

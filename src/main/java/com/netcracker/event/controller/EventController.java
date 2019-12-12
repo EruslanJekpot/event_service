@@ -3,16 +3,13 @@ package com.netcracker.event.controller;
 import com.netcracker.event.dto.EventDto;
 import com.netcracker.event.domain.Event;
 import com.netcracker.event.domain.Organization;
-import com.netcracker.event.feign.EventClient;
 import com.netcracker.event.service.EventService;
 import com.netcracker.event.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,13 +34,6 @@ public class EventController {
     public ResponseEntity getAll() {
         return ResponseEntity.ok().body(eventService.findAllByStartDateAfter());
     }
-
-//    //dlya proverki (roflo metod)
-//    @PostMapping(path = "/easySave/event")
-//    public ResponseEntity easySaveEvent(@RequestBody Event event) {
-//        eventService.saveEvent(event);
-//        return ResponseEntity.ok().build();
-//    }
 
     //с добавлением в список
     @PostMapping(path = "/save/event")

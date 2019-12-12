@@ -14,12 +14,13 @@ import java.util.UUID;
 public class OrganizationController {
     private OrganizationService organizationService;
 
-    public OrganizationController(OrganizationService organizationService){
-        this.organizationService=organizationService;
+    public OrganizationController(OrganizationService organizationService) {
+        this.organizationService = organizationService;
     }
 
     @PostMapping(path = "/save/organization")
     public ResponseEntity saveOrganization(Organization organization) {
+        long start, end;
         byte[] image;
         Organization existingOrg = organizationService.findByEmail(organization.getEmail());
         if (existingOrg != null) {
@@ -29,27 +30,32 @@ public class OrganizationController {
         if (existingOrg != null) {
             return ResponseEntity.badRequest().body("orgName in use");
         }
-        try {  image = organizationService.extractBytes("/static/org.jpg");
+        try {
+            image = organizationService.extractBytes("/static/org.jpg");
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
+        start = System.nanoTime();
         organization.setImage(image);
         organizationService.saveOrganization(organization);
+        end = System.nanoTime();
+        System.out.println("cold time " + String.format("%,12d",(end-start)) + " ns");
+        System.out.println("warmed time " + String.format("%,12d",(end-start)) + " ns");
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(path = "/organization/{organization_id}")
-    public ResponseEntity getOrganizationById(@PathVariable(value = "organization_id") UUID organizationId){
+    public ResponseEntity getOrganizationById(@PathVariable(value = "organization_id") UUID organizationId) {
         return ResponseEntity.ok().body(organizationService.findByOrganizationId(organizationId));
     }
 
     @GetMapping(path = "/organization/{organization_id}/info")
-    public ResponseEntity getOrganizationInfo(@PathVariable(value = "organization_id") UUID organizationId){
+    public ResponseEntity getOrganizationInfo(@PathVariable(value = "organization_id") UUID organizationId) {
         return ResponseEntity.ok().body(organizationService.getOrganizationInfo(organizationId));
     }
 
     @PatchMapping(path = "/update/organization")
-    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org){
+    public ResponseEntity updateOrganization(@RequestHeader("uid") String userId, @RequestBody Organization org) {
         Organization organization = organizationService.getOrganizationByUser(userId);
         organization.setEmail(org.getEmail());
         organization.setInfo(org.getInfo());
