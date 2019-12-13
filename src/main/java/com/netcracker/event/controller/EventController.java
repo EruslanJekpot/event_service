@@ -53,7 +53,7 @@ public class EventController {
     @GetMapping(path = "/event/{event_id}")
     public ResponseEntity getEventById(@PathVariable(value = "event_id") UUID eventId) {
         return ResponseEntity.ok().body(eventService.findByEventId(eventId));
-    }
+        }
 
     // dto с организацией и эвентом
     @GetMapping(path = "/eventDto/{event_id}")

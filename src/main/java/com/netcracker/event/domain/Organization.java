@@ -42,7 +42,7 @@ public class Organization {
 //            joinColumns = @JoinColumn(name = "organization_id"),
 //            inverseJoinColumns = @JoinColumn(name = "event_id"))
 //    private List<Event> eventList;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organizationId")
     @JsonIgnore
     private List<Event> eventList;
 }

@@ -44,9 +44,9 @@ public class OrganizationController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path = "/organization/{organization_id}")
-    public ResponseEntity getOrganizationById(@PathVariable(value = "organization_id") UUID organizationId) {
-        return ResponseEntity.ok().body(organizationService.findByOrganizationId(organizationId));
+    @GetMapping(path = "/organization/{organization_user_id}")
+    public ResponseEntity getOrganizationById(@PathVariable(value = "organization_user_id") String userId) {
+        return ResponseEntity.ok().body(organizationService.getOrganizationByUser(userId));
     }
 
     @GetMapping(path = "/organization/{organization_id}/info")

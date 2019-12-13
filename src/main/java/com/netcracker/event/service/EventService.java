@@ -39,6 +39,7 @@ public class EventService {
     private ModelMapper modelMapper;
 
     // Для вывода списка участников эвента
+	@Transactional
     public List<ParticipantDto> getEventParticipantsDto(UUID eventId) {
         List<Participant> participants = eventRepository.findByEventId(eventId).getParticipantList();
         List<String> participantsIdList = new ArrayList<>();
@@ -86,6 +87,7 @@ public class EventService {
     }
 
     // Для вывода информации об эвенте с именем и id организации
+    @Transactional
     public EventDto getEventDto(UUID id) {
         // fetching Event entity object from the database
         Event event = eventRepository.findByEventId(id);
