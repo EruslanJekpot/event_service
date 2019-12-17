@@ -1,5 +1,6 @@
 package com.netcracker.event.controller;
 
+import com.netcracker.event.aspect.LogExecutionTime;
 import com.netcracker.event.domain.Organization;
 import com.netcracker.event.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +19,9 @@ public class OrganizationController {
         this.organizationService = organizationService;
     }
 
+    @LogExecutionTime
     @PostMapping(path = "/save/organization")
     public ResponseEntity saveOrganization(@RequestBody Organization organization) {
-        long start, end;
         byte[] image;
         Organization existingOrg = organizationService.findByEmail(organization.getEmail());
         if (existingOrg != null) {
@@ -35,12 +36,8 @@ public class OrganizationController {
         } catch (Exception exc) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error loading image");
         }
-        start = System.nanoTime();
         organization.setImage(image);
         organizationService.saveOrganization(organization);
-        end = System.nanoTime();
-        System.out.println("cold time " + String.format("%,12d",(end-start)) + " ns");
-        System.out.println("warmed time " + String.format("%,12d",(end-start)) + " ns");
         return ResponseEntity.ok().build();
     }
 
@@ -70,5 +67,4 @@ public class OrganizationController {
         Organization organization = organizationService.getOrganizationByUser(uid);
         return ResponseEntity.status(HttpStatus.OK).body(organization);
     }
-
 }

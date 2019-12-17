@@ -39,7 +39,7 @@ public class EventService {
     private ModelMapper modelMapper;
 
     // Для вывода списка участников эвента
-	@Transactional
+    @Transactional
     public List<ParticipantDto> getEventParticipantsDto(UUID eventId) {
         List<Participant> participants = eventRepository.findByEventId(eventId).getParticipantList();
         List<String> participantsIdList = new ArrayList<>();
