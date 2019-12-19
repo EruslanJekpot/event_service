@@ -1,5 +1,3 @@
-ALTER TABLE participant OWNER TO postgres;
-
 ALTER TABLE ONLY event
     ADD CONSTRAINT fkkarqc3c84scr3r5ncv5stqbk2 FOREIGN KEY (organization_id) REFERENCES organization(organization_id);
 
