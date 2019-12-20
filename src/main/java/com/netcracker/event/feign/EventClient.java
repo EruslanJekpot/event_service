@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
-@FeignClient(name = "event", url = "http://localhost:8080")
+@FeignClient(name = "event", url = "https://chatmicroservice.herokuapp.com/")
 public interface EventClient {
 
     @PostMapping(path = "/chat/attendee/names")
